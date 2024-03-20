@@ -1,3 +1,5 @@
+import {useState} from "react";
+
 const initialFriends = [
     {
         id: 118836,
@@ -20,11 +22,17 @@ const initialFriends = [
 ];
 
 export default function App() {
+    const [addFriendMode, setAddFriendMode] = useState(false)
+
+    function handleAddFriendClick(){
+        setAddFriendMode((currentMode) => !currentMode);
+    }
+
     return <div className="app">
         <div className="sidebar">
             <FriendsList>List</FriendsList>
-            <FormAddFriend />
-            <Button>Add friend</Button>
+            { addFriendMode && <FormAddFriend />}
+            <Button onClick={() => handleAddFriendClick()}>{addFriendMode ? "Close" : "Add friend"}</Button>
         </div>
 
         <FormSplitBill />
@@ -48,8 +56,8 @@ function Friend({friend}){
         </li>;
 }
 
-function Button({children}) {
-    return <button className="button">{children}</button>
+function Button({children, onClick}) {
+    return <button className="button" onClick={onClick}>{children}</button>
 }
 
 function FormAddFriend() {
